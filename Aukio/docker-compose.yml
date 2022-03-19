@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  userservice:
+    image: ${DOCKER_REGISTRY-}userservice
+    build:
+      context: .
+      dockerfile: UserService/Dockerfile
+    ports:
+        - "50020:80"
+        - "50021:443"
+
+  userdb:
+    image: "mcr.microsoft.com/mssql/server"
+    container_name: UserDB
+    environment:
+        SA_PASSWORD: "Your_password123"
+        ACCEPT_EULA: "Y"
+    ports:
+        - "5674:5672"
+        - "1443:1433"
+
+
