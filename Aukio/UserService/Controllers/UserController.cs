@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using UserService.Models;
+using Shared.Messaging;
 
 namespace UserService.Controllers
 {
@@ -14,18 +15,22 @@ namespace UserService.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-
-        public UserController(IUserService userService)
+        private readonly IMessagePublisher _messagePublisher;
+        public UserController(IUserService userService, IMessagePublisher messagePublisher)
         {
             _userService = userService;
+            _messagePublisher = messagePublisher;
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> AddUser([FromBody] User user)
+        public async Task<IActionResult> AddUser([FromBody] UserRegister user)
         {
-            if (_userService.CheckEmail(user.Email))
+            if (_userService.CheckEmail(user.Email) || user.Password=="" || user.Password==null)
             {
-                await _userService.AddUser(user);
+                User addUser = new Models.User { Email = user.Email, Name = user.Name, School = user.School };
+                await _userService.AddUser(addUser);
+                User temp = _userService.GetUserByID(addUser);
+                await _messagePublisher.PublishMessageAsync("UserRegistered", new {ID = temp.ID, Email = user.Email, Password = user.Password });
                 return Ok();
             }
             return BadRequest("Email already taken");

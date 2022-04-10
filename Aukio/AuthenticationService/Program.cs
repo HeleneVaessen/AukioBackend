@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace UserService
+namespace AuthenticationService
 {
     public class Program
     {
@@ -16,7 +16,7 @@ namespace UserService
             connectToRabbit(args);
         }
 
-        public static void connectToRabbit(string [] args)
+        public static void connectToRabbit(string[] args)
         {
             for (int i = 1; i <= 5; i++)
             {
@@ -38,7 +38,6 @@ namespace UserService
                 }
             }
         }
-
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>

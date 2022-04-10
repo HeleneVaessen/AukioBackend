@@ -57,5 +57,10 @@ namespace UserService.Services
             }
             return false;
         }
+
+        public User GetUserByID(User user)
+        {
+            return _userDAL.GetUserByID(user.ID);
+        }
     }
 }

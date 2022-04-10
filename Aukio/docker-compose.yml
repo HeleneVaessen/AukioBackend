@@ -1,14 +1,6 @@
 version: '3.4'
 
 services:
-  userservice:
-    image: ${DOCKER_REGISTRY-}userservice
-    build:
-      context: .
-      dockerfile: UserService/Dockerfile
-    ports:
-        - "50020:80"
-        - "50021:443"
 
   userdb:
     image: "mcr.microsoft.com/mssql/server"
@@ -20,4 +12,50 @@ services:
         - "5674:5672"
         - "1443:1433"
 
+  authdb:
+    image: "mcr.microsoft.com/mssql/server"
+    container_name: AuthDB
+    environment:
+        SA_PASSWORD: "Your_password123"
+        ACCEPT_EULA: "Y"
+    ports:
+        - "5675:5672"
+        - "1453:1433"
 
+  apigateway:
+    image: ${DOCKER_REGISTRY-}apigateway
+    build:
+      context: .
+      dockerfile: APIGateway/Dockerfile
+    ports:
+        - "50002:80"
+        - "50003:443"
+
+  userservice:
+    image: ${DOCKER_REGISTRY-}userservice
+    build:
+      context: .
+      dockerfile: UserService/Dockerfile
+    ports:
+        - "50020:80"
+        - "50021:443"
+
+  authenticationservice:
+    image: ${DOCKER_REGISTRY-}authenticationservice
+    build:
+      context: .
+      dockerfile: AuthenticationService/Dockerfile
+    ports:
+        - "50022:80"
+        - "50023:443"
+
+  rabbit:
+    image: rabbitmq:3-management
+    hostname: rabbit
+    container_name: RabbitMQ
+    ports:
+        - "15672:15672"
+        - "5672:5672"
+    expose:
+        - 15672
+        - 5672

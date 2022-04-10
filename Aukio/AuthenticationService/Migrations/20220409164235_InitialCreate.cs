@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace UserService.Migrations
+namespace AuthenticationService.Migrations
 {
-    public partial class @as : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -10,11 +10,11 @@ namespace UserService.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", nullable: false),
+                    ID = table.Column<int>(nullable: false),
                     Email = table.Column<string>(type: "varchar(100)", nullable: false),
-                    School = table.Column<string>(type: "varchar(100)", nullable: false)
+                    Password = table.Column<string>(type: "varchar(100)", nullable: false),
+                    Role = table.Column<int>(nullable: false),
+                    Salt = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

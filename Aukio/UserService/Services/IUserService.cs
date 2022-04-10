@@ -13,5 +13,6 @@ namespace UserService.Services
         Task AddUser(User user);
         Task<bool> UpdateUser(User user);
         Task<bool> DeleteUser(User user);
+        User GetUserByID(User user);
     }
 }

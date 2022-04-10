@@ -1,17 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using UserService.Models;
 using UserService.Services;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using UserService.DAL;
+using Microsoft.EntityFrameworkCore;
+using UserService.Models;
+using Shared;
 
 namespace UserService
 {
@@ -31,18 +33,28 @@ namespace UserService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddScoped<IUserService, Services.UserService>();
+
             services.AddScoped<IUserDAL, UserDAL>();
-            var connection = "Server=userdb;Database=master;User=sa;Password=Your_password123;";
+
+            services.AddScoped<IUserService, Services.UserService>();
+
+            services.AddSharedServices("User Service");
+
+            services.AddMessagePublishing("User Service");
+
+            var connection = "Server=userdb;Database=aukio;User=sa;Password=Your_password123;";
 
             services.AddDbContext<UserContext>(
                  options => options.UseSqlServer(connection));
 
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserContext context)
         {
+            app.UseSharedAppParts("User Service");
 
             UpdateDatabase(app);
             if (env.IsDevelopment())
@@ -56,7 +68,6 @@ namespace UserService
 
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
