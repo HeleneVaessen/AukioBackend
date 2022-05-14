@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: helenevaessenaukiobackend 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helenevaessenaukiobackend
+  template:
+    metadata:
+      labels:
+        app: helenevaessenaukiobackend 
+    spec:
+      containers:
+        - name: helenevaessenaukiobackend 
+          image: aukiocontainerregistry.azurecr.io/helenevaessenaukiobackend
+          ports:
+          - containerPort: 80
