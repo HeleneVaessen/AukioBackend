@@ -70,8 +70,8 @@ stages:
             inputs:
               action: deploy
               manifests: |
-                $(Pipeline.Workspace)/manifests/deployment.yml
-                $(Pipeline.Workspace)/manifests/service.yml
+                $(Pipeline.Workspace)/Aukio/manifests/deployment.yml
+                $(Pipeline.Workspace)/Aukio/manifests/service.yml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
