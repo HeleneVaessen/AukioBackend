@@ -14,7 +14,7 @@ variables:
   dockerRegistryServiceConnection: '0f1e0ece-584a-4987-b823-8a28b650a102'
   imageRepository: 'helenevaessenaukiobackend'
   containerRegistry: 'aukiocontainerregistry.azurecr.io'
-  dockerfilePath: '**/Dockerfile'
+  dockerfilePath: 'aukio/**/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'aukiocontainerregistry9d36-auth'
 
