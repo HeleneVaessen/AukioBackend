@@ -11,11 +11,11 @@ namespace AuthenticationService.Services
     {
         private readonly IUserDAL _userDAL;
 
-        private readonly ICryptographyService _cryptographyService;
+        private readonly IHashingService _cryptographyService;
 
         private readonly IJwtAuthenticationManager _jwtAuthenticationManager;
 
-        public UserService(IUserDAL userDAL, ICryptographyService cryptographyService, IJwtAuthenticationManager jwtAuthenticationManager)
+        public UserService(IUserDAL userDAL, IHashingService cryptographyService, IJwtAuthenticationManager jwtAuthenticationManager)
         {
             _userDAL = userDAL;
             _cryptographyService = cryptographyService;

@@ -13,6 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIGateway", "APIGateway\AP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "..\..\Mealz-master\Shared\Shared.csproj", "{845DBFAF-52B3-4AD6-A32E-D586789A42EE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "K8S", "K8S", "{14098F12-9FCD-4BE7-9254-8FB11A86EC9A}"
+	ProjectSection(SolutionItems) = preProject
+		aukiodepl.yaml = aukiodepl.yaml
+		k8sUser.yaml = k8sUser.yaml
+		k8sUserRBAC.yaml = k8sUserRBAC.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

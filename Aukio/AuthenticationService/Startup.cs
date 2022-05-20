@@ -68,7 +68,7 @@ namespace AuthenticationService
 
             services.AddSingleton<IJwtAuthenticationManager, JwtAuthenticationManager>();
 
-            services.AddSingleton<ICryptographyService, CryptographyService>();
+            services.AddSingleton<IHashingService, HashingService>();
 
             services.AddScoped<IUserDAL, UserDAL>();
 

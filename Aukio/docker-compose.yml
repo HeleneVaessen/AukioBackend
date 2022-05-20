@@ -23,7 +23,7 @@ services:
         - "1453:1433"
 
   apigateway:
-    image: ${DOCKER_REGISTRY-}apigateway
+    image: leenpeen/apigateway
     build:
       context: .
       dockerfile: APIGateway/Dockerfile
@@ -32,7 +32,7 @@ services:
         - "50003:443"
 
   userservice:
-    image: ${DOCKER_REGISTRY-}userservice
+    image: leenpeen/userservice
     build:
       context: .
       dockerfile: UserService/Dockerfile
@@ -41,7 +41,7 @@ services:
         - "50021:443"
 
   authenticationservice:
-    image: ${DOCKER_REGISTRY-}authenticationservice
+    image: leenpeen/authenticationservice
     build:
       context: .
       dockerfile: AuthenticationService/Dockerfile
@@ -59,3 +59,11 @@ services:
     expose:
         - 15672
         - 5672
+
+  consul:
+    image: consul:latest
+    command: consul agent -dev -log-level=warn -ui -client=0.0.0.0
+    hostname: consul
+    container_name: consul
+    ports:
+      - "8500:8500"
