@@ -17,7 +17,8 @@ variables:
   dockerfilePath: 'aukio/**/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'aukiocontainerregistry9d36-auth'
-
+  azureResourceGroup: 'aukio'
+  kubernetesCluster: 'aukio'
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
