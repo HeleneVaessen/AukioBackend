@@ -11,14 +11,13 @@ resources:
 variables:
 
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '0f1e0ece-584a-4987-b823-8a28b650a102'
+  dockerRegistryServiceConnection: '59fdb64a-1673-48b7-b078-158822630375'
   imageRepository: 'helenevaessenaukiobackend'
   containerRegistry: 'aukiocontainerregistry.azurecr.io'
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
-  imagePullSecret: 'aukiocontainerregistry9d36-auth'
-  azureResourceGroup: 'aukio'
-  kubernetesCluster: 'aukio'
+  imagePullSecret: 'aukiocontainerregistry16408b81-auth'
+
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
@@ -26,7 +25,6 @@ variables:
 stages:
 - stage: Build
   displayName: Build stage
-  
   jobs:
   - job: Build
     displayName: Build
@@ -55,7 +53,7 @@ stages:
     displayName: Deploy
     pool:
       vmImage: $(vmImageName)
-    environment: 'HeleneVaessenAukioBackend.default'
+    environment: 'HeleneVaessenAukioBackend-1958.default'
     strategy:
       runOnce:
         deploy:
@@ -72,8 +70,8 @@ stages:
             inputs:
               action: deploy
               manifests: |
-                $(Pipeline.Workspace)/Aukio/manifests/deployment.yml
-                $(Pipeline.Workspace)/Aukio/manifests/service.yml
+                $(Pipeline.Workspace)/manifests/deployment.yml
+                $(Pipeline.Workspace)/manifests/service.yml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |

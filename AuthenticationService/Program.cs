@@ -13,9 +13,31 @@ namespace AuthenticationService
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            connectToRabbit(args);
         }
 
+        public static void connectToRabbit(string[] args)
+        {
+            for (int i = 1; i <= 5; i++)
+            {
+                try
+                {
+                    CreateHostBuilder(args).Build().Run();
+                    break;
+                }
+                catch (RabbitMQ.Client.Exceptions.BrokerUnreachableException)
+                {
+                    Console.WriteLine("Connection failed, attempt " + i + "/5");
+                    System.Threading.Thread.Sleep(3000);
+
+                    if (i == 5)
+                    {
+                        Console.WriteLine("Could not successfully connect to RabbitMQ, Broker is offline");
+                        break;
+                    }
+                }
+            }
+        }
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
