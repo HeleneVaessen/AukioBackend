@@ -6,10 +6,10 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["UserService/UserService.csproj", "UserService/"]
-RUN dotnet restore "UserService/UserService.csproj"
+COPY ["/UserService.csproj", "./"]
+RUN dotnet restore "UserService.csproj"
 COPY . .
-WORKDIR "/src/UserService"
+WORKDIR "/src/"
 RUN dotnet build "UserService.csproj" -c Release -o /app/build
 
 FROM build AS publish
