@@ -4,8 +4,7 @@ items:
   kind: Service
   metadata:
     annotations:
-    service.beta.kubernetes.io/azure-load-balancer-resource-group: aukio
-  name: azure-load-balancer
+      service.beta.kubernetes.io/azure-load-balancer-resource-group: aukio
       kompose.cmd: kompose convert -f docker-compose.yml -o aukiodepl.yml
       kompose.version: 1.21.0 (992df58d8)
     creationTimestamp: null
