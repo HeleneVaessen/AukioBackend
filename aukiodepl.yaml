@@ -25,7 +25,7 @@ items:
       nodePort: 30001
     selector:
       io.kompose.service: apigateway
-      app: azure-load-balancer
+      app: apigateway
 
 - apiVersion: v1
   kind: Service
