@@ -8,6 +8,10 @@ trigger:
 resources:
 - repo: self
 
+  # Agent VM image name
+pool:
+  vmImageName: 'windows-latest'
+
 variables:
 
   # Container registry service connection established during pipeline creation
@@ -19,9 +23,6 @@ variables:
   azureSubscriptionEndpoint: 'Azure for Students(54af003a-7ad9-4003-a861-674ca3bfb8e1)'
   azureResourceGroup: 'aukio'
   kubernetesCluster: 'aukio'
-  # Agent VM image name
-  pool:
-  vmImageName: 'windows-latest'
 
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
