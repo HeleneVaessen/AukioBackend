@@ -11,7 +11,7 @@ resources:
 variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: 'd61c337b-8656-4aef-bf83-d364c0f67e34'
-  imageRepository: 'helenevaessenaukiobackend'
+  imageRepository: 'authentication'
   containerRegistry: 'aukiocontainerregistry.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/APIGateway/Dockerfile'
   tag: '$(Build.BuildId)'
