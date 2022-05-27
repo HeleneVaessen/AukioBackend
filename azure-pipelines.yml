@@ -14,7 +14,6 @@ variables:
   dockerRegistryServiceConnection: '59fdb64a-1673-48b7-b078-158822630375'
   imageRepository: 'helenevaessenaukiobackend'
   containerRegistry: 'aukiocontainerregistry.azurecr.io'
-  dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'aukiocontainerregistry16408b81-auth'
   azureSubscriptionEndpoint: 'Azure for Students(54af003a-7ad9-4003-a861-674ca3bfb8e1)'
@@ -52,4 +51,4 @@ steps:
     namespace: 'default'
     command: apply
     useConfigurationFile: true
-    configuration: 'k8s/aukiodepl.yml'
+    configuration: '**/k8s/aukiodepl.yml'
