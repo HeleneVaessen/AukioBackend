@@ -53,4 +53,4 @@ steps:
     namespace: 'default'
     command: apply
     useConfigurationFile: true
-    configuration: '**/k8s/aukiodepl.yml'
+    configuration: '**/aukiodepl.yml'
