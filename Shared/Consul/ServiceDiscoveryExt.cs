@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Consul;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -19,7 +20,7 @@ namespace Shared.Consul
             var consulClient = CreateConsulClient(serviceConfig);
 
             services.AddSingleton(serviceConfig);
-            services.AddSingleton<IHostedService, ServiceDiscoveryHostedService>();
+            services.AddSingleton<IHostedService, ServiceDiscoveryHosted>();
             services.AddSingleton<IConsulClient, ConsulClient>(p => consulClient);
         }
 
