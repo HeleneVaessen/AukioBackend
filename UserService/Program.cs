@@ -13,6 +13,11 @@ namespace UserService
     {
         public static void Main(string[] args)
         {
+            connectToRabbit(args);
+        }
+
+        public static void connectToRabbit(string [] args)
+        {
             for (int i = 1; i <= 5; i++)
             {
                 try
