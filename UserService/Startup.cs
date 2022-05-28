@@ -20,8 +20,7 @@ namespace UserService
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -30,7 +29,7 @@ namespace UserService
         public IConfiguration Configuration { get; }
 
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
@@ -54,7 +53,6 @@ namespace UserService
             
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserContext context)
         {
             app.UseSharedAppParts("User Service");
