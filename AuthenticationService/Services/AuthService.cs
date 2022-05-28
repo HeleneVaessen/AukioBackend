@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AuthenticationService.Services
 {
-    public class UserService :IUserService
+    public class AuthService :IAuthService
     {
         private readonly IUserDAL _userDAL;
 
@@ -15,7 +15,7 @@ namespace AuthenticationService.Services
 
         private readonly IJwtAuthenticationManager _jwtAuthenticationManager;
 
-        public UserService(IUserDAL userDAL, IHashingService cryptographyService, IJwtAuthenticationManager jwtAuthenticationManager)
+        public AuthService(IUserDAL userDAL, IHashingService cryptographyService, IJwtAuthenticationManager jwtAuthenticationManager)
         {
             _userDAL = userDAL;
             _cryptographyService = cryptographyService;

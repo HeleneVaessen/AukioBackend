@@ -75,7 +75,7 @@ namespace AuthenticationService
 
             services.AddScoped<IUserDAL, UserDAL>();
 
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthService, AuthService>();
 
             services.AddSharedServices("Authentication Service");
 

@@ -10,9 +10,9 @@ namespace AuthenticationService.Messaging
 {
     public class UserRegisteredMessage : IMessageHandler<User>
     {
-        private IUserService _userService;
+        private IAuthService _userService;
 
-        public UserRegisteredMessage(IUserService userService)
+        public UserRegisteredMessage(IAuthService userService)
         {
             _userService = userService;
         }

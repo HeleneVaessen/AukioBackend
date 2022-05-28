@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AuthenticationService.Services
 {
-    public interface IUserService
+    public interface IAuthService
     {
         void AddUser(int id, string email, string password);
         string Authenticate(string email, string password);

@@ -13,11 +13,11 @@ namespace AuthenticationService.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly IAuthService _userService;
 
         private readonly IJwtAuthenticationManager _jwtAuthenticationManager;
 
-        public AuthenticationController(IUserService userService, IJwtAuthenticationManager jwtAuthenticationManager)
+        public AuthenticationController(IAuthService userService, IJwtAuthenticationManager jwtAuthenticationManager)
         {
             _userService = userService;
             _jwtAuthenticationManager = jwtAuthenticationManager;
