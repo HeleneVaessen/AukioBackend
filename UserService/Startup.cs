@@ -14,6 +14,7 @@ using UserService.DAL;
 using Microsoft.EntityFrameworkCore;
 using UserService.Models;
 using Shared;
+using Shared.Consul;
 
 namespace UserService
 {
@@ -33,6 +34,8 @@ namespace UserService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            ConfigureConsul(services);
 
             services.AddScoped<IUserDAL, UserDAL>();
 
@@ -98,6 +101,12 @@ namespace UserService
                        .GetRequiredService<IServiceScopeFactory>()
                        .CreateScope();
             }
+        }
+        private void ConfigureConsul(IServiceCollection services)
+        {
+            var serviceConfig = Configuration.GetServiceConfig();
+
+            services.RegisterConsulServices(serviceConfig);
         }
     }
 }
