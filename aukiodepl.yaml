@@ -195,7 +195,13 @@ items:
           env:
             - name: "ASPNETCORE_ENVIRONMENT"
               value: ""
-          resources: {}
+          resources: 
+            requests:
+                cpu:100m
+                memory: 128Mi
+            limits:
+                cpu:250m
+                memory: 256Mi
           stdin: true
           tty: true
         restartPolicy: Always
@@ -241,7 +247,13 @@ items:
           ports:
           - containerPort: 5672
           - containerPort: 1433
-          resources: {}
+          resources: 
+            requests:
+                cpu:100m
+                memory: 128Mi
+            limits:
+                cpu:250m
+                memory: 256Mi
         restartPolicy: Always
         serviceAccountName: ""
         volumes: null
@@ -279,7 +291,13 @@ items:
           ports:
           - containerPort: 80
           - containerPort: 443
-          resources: {}
+          resources: 
+            requests:
+                cpu:100m
+                memory: 128Mi
+            limits:
+                cpu:250m
+                memory: 256Mi
           stdin: true
           tty: true
         restartPolicy: Always
@@ -320,7 +338,13 @@ items:
           ports:
           - containerPort: 15672
           - containerPort: 5672
-          resources: {}
+          resources: 
+            requests:
+                cpu:100m
+                memory: 128Mi
+            limits:
+                cpu:250m
+                memory: 256Mi
         hostname: rabbit
         restartPolicy: Always
         serviceAccountName: ""
@@ -364,15 +388,15 @@ items:
           ports:
           - containerPort: 5672
           - containerPort: 1433
-          resources:
+          resources: 
             requests:
-                memory:"100Mi"
+                cpu:100m
+                memory: 128Mi
             limits:
-                memory: "200Mi"
+                cpu:250m
+                memory: 256Mi
         restartPolicy: Always
         serviceAccountName: ""
-        command: ["stress"]
-        args: ["--vm", "1", "--vm-bytes", "150M", "--vm-hang", "1"]
         volumes: null
   status: {}
 
@@ -409,7 +433,13 @@ items:
           ports:
           - containerPort: 80
           - containerPort: 443
-          resources: {}
+          resources: 
+            requests:
+                cpu:100m
+                memory: 128Mi
+            limits:
+                cpu:250m
+                memory: 256Mi
           stdin: true
           tty: true
         restartPolicy: Always
@@ -455,7 +485,13 @@ items:
           name: consul
           ports:
           - containerPort: 8500
-          resources: {}
+          resources: 
+            requests:
+                cpu:100m
+                memory: 128Mi
+            limits:
+                cpu:250m
+                memory: 256Mi
         hostname: consul
         restartPolicy: Always
         serviceAccountName: ""
