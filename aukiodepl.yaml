@@ -197,10 +197,10 @@ items:
               value: ""
           resources: 
             requests:
-                cpu:100m
+                cpu: 100m
                 memory: 128Mi
             limits:
-                cpu:250m
+                cpu: 250m
                 memory: 256Mi
           stdin: true
           tty: true
@@ -249,10 +249,10 @@ items:
           - containerPort: 1433
           resources: 
             requests:
-                cpu:100m
+                cpu: 100m
                 memory: 128Mi
             limits:
-                cpu:250m
+                cpu: 250m
                 memory: 256Mi
         restartPolicy: Always
         serviceAccountName: ""
@@ -293,10 +293,10 @@ items:
           - containerPort: 443
           resources: 
             requests:
-                cpu:100m
+                cpu: 100m
                 memory: 128Mi
             limits:
-                cpu:250m
+                cpu: 250m
                 memory: 256Mi
           stdin: true
           tty: true
@@ -340,10 +340,10 @@ items:
           - containerPort: 5672
           resources: 
             requests:
-                cpu:100m
+                cpu: 100m
                 memory: 128Mi
             limits:
-                cpu:250m
+                cpu: 250m
                 memory: 256Mi
         hostname: rabbit
         restartPolicy: Always
@@ -390,10 +390,10 @@ items:
           - containerPort: 1433
           resources: 
             requests:
-                cpu:100m
+                cpu: 100m
                 memory: 128Mi
             limits:
-                cpu:250m
+                cpu: 250m
                 memory: 256Mi
         restartPolicy: Always
         serviceAccountName: ""
@@ -435,10 +435,10 @@ items:
           - containerPort: 443
           resources: 
             requests:
-                cpu:100m
+                cpu: 100m
                 memory: 128Mi
             limits:
-                cpu:250m
+                cpu: 250m
                 memory: 256Mi
           stdin: true
           tty: true
@@ -487,10 +487,10 @@ items:
           - containerPort: 8500
           resources: 
             requests:
-                cpu:100m
+                cpu: 100m
                 memory: 128Mi
             limits:
-                cpu:250m
+                cpu: 250m
                 memory: 256Mi
         hostname: consul
         restartPolicy: Always
