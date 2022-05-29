@@ -30,7 +30,7 @@ stages:
       displayName: 'Restore solution'
       inputs:
         command: 'restore'
-        projects: '**/*.sln'
+        projects: '**/AuthenticationService/AuthenticationService.csproj'
         feedsToUse: 'select'
 
     - task: DotNetCoreCLI@2
