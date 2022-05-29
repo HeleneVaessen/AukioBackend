@@ -30,7 +30,8 @@ namespace UserService.Controllers
                 User addUser = new Models.User { Email = user.Email, Name = user.Name, School = user.School };
                 await _userService.AddUser(addUser);
                 User temp = _userService.GetUserByID(addUser);
-                await _messagePublisher.PublishMessageAsync("UserRegistered", new {ID = temp.ID, Email = user.Email, Password = user.Password });
+                await _messagePublisher.PublishMessageAsync("UserRegistered", new {ID = temp.ID, Email = user.Email, 
+                    Password = user.Password });
                 return Ok();
             }
             return BadRequest("Email already taken");

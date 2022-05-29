@@ -13,11 +13,10 @@ namespace UserService
             {
                 try
                 {
-                    Console.WriteLine("In try");
-                    var host = CreateHostBuilder(args).Build();
-                    Console.WriteLine("After createhostbuilder");
-                    host.Run();
-                    Console.WriteLine("After run");
+                    if(args ==null){
+                        throw new ArgumentNullException(nameof(args));
+                    }
+                    CreateHostBuilder(args).Build().Run();
                     break;
                 }
                 catch (RabbitMQ.Client.Exceptions.BrokerUnreachableException)
@@ -34,7 +33,6 @@ namespace UserService
             }
         }
 
-
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
@@ -43,3 +41,4 @@ namespace UserService
                 });
     }
 }
+

@@ -55,7 +55,6 @@ namespace UserService
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserContext context)
         {
-            app.UseSharedAppParts("User Service");
 
             UpdateDatabase(app);
             if (env.IsDevelopment())
@@ -68,6 +67,8 @@ namespace UserService
             }
 
             app.UseRouting();
+
+            app.UseSharedAppParts("User Service");
 
             app.UseEndpoints(endpoints =>
             {
@@ -103,6 +104,11 @@ namespace UserService
         private void ConfigureConsul(IServiceCollection services)
         {
             var serviceConfig = Configuration.GetServiceConfig();
+
+            if (Configuration.GetServiceConfig().ServiceName == null)
+            {
+                throw new ArgumentNullException(nameof(serviceConfig));
+            }
 
             services.RegisterConsulServices(serviceConfig);
         }
