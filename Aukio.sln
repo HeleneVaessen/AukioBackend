@@ -18,8 +18,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "K8S", "K8S", "{14098F12-9FC
 		k8sUserRBAC.yaml = k8sUserRBAC.yaml
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "..\Mealz-master\Shared\Shared.csproj", "{5B683DD5-E740-4558-9D83-9BDE8895C3EA}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,10 +40,6 @@ Global
 		{B548199E-5095-4EE7-B8F7-0ACC00957BDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B548199E-5095-4EE7-B8F7-0ACC00957BDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B548199E-5095-4EE7-B8F7-0ACC00957BDA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5B683DD5-E740-4558-9D83-9BDE8895C3EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5B683DD5-E740-4558-9D83-9BDE8895C3EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5B683DD5-E740-4558-9D83-9BDE8895C3EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5B683DD5-E740-4558-9D83-9BDE8895C3EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

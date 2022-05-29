@@ -103,7 +103,7 @@ namespace UserService
         }
         private void ConfigureConsul(IServiceCollection services)
         {
-            var serviceConfig = Configuration.GetServiceConfig()
+            var serviceConfig = Configuration.GetServiceConfig();
 
             services.RegisterConsulServices(serviceConfig);
         }
