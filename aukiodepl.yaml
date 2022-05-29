@@ -201,7 +201,7 @@ items:
                 memory: 128Mi
             limits:
                 cpu: 250m
-                memory: 256Mi
+                memory: 2560Mi
           stdin: true
           tty: true
         restartPolicy: Always
@@ -253,7 +253,7 @@ items:
                 memory: 128Mi
             limits:
                 cpu: 250m
-                memory: 256Mi
+                memory: 2560Mi
         restartPolicy: Always
         serviceAccountName: ""
         volumes: null
@@ -297,7 +297,7 @@ items:
                 memory: 128Mi
             limits:
                 cpu: 250m
-                memory: 256Mi
+                memory: 2560Mi
           stdin: true
           tty: true
         restartPolicy: Always
@@ -344,7 +344,7 @@ items:
                 memory: 128Mi
             limits:
                 cpu: 250m
-                memory: 256Mi
+                memory: 2560Mi
         hostname: rabbit
         restartPolicy: Always
         serviceAccountName: ""
@@ -394,7 +394,7 @@ items:
                 memory: 128Mi
             limits:
                 cpu: 250m
-                memory: 256Mi
+                memory: 2560Mi
         restartPolicy: Always
         serviceAccountName: ""
         volumes: null
@@ -439,7 +439,7 @@ items:
                 memory: 128Mi
             limits:
                 cpu: 250m
-                memory: 256Mi
+                memory: 2560Mi
           stdin: true
           tty: true
         restartPolicy: Always
@@ -491,7 +491,7 @@ items:
                 memory: 128Mi
             limits:
                 cpu: 250m
-                memory: 256Mi
+                memory: 2560Mi
         hostname: consul
         restartPolicy: Always
         serviceAccountName: ""
