@@ -19,8 +19,11 @@ namespace AuthenticationService
             {
                 try
                 {
+                    Console.WriteLine("In try");
                     var host = CreateHostBuilder(args).Build();
+                    Console.WriteLine("After createhostbuilder");
                     host.Run();
+                    Console.WriteLine("After run");
                     break;
                 }
                 catch (RabbitMQ.Client.Exceptions.BrokerUnreachableException)

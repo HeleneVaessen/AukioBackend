@@ -16,6 +16,7 @@ namespace Shared.Consul
 
         public ServiceDiscoveryHosted(IConsulClient client, ServiceConfig config)
         {
+            Console.WriteLine("Hoi vanuit Consul");
             Console.WriteLine(config);
             _client = client;
             _config = config;
