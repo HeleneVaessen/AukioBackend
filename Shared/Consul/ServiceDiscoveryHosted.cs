@@ -16,12 +16,14 @@ namespace Shared.Consul
 
         public ServiceDiscoveryHosted(IConsulClient client, ServiceConfig config)
         {
+            Console.WriteLine(config);
             _client = client;
             _config = config;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
+            Console.WriteLine($"{_config.ServiceName}-{_config.ServiceId}");
             _registrationId = $"{_config.ServiceName}-{_config.ServiceId}";
 
             var registration = new AgentServiceRegistration

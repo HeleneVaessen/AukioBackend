@@ -20,7 +20,6 @@ namespace AuthenticationService
                 try
                 {
                     var host = CreateHostBuilder(args).Build();
-                    Console.WriteLine(host);
                     host.Run();
                     break;
                 }
