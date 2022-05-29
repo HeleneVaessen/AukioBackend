@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Shared.Messaging
+﻿namespace Shared.Messaging
 {
+    /// <summary>
+    /// Helper class to help finding the name of the queue within this application
+    /// </summary>
     internal class QueueName
     {
         public string Name { get; }

@@ -1,7 +1,5 @@
 ﻿using RabbitMQ.Client;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -22,9 +20,11 @@ namespace Shared.Messaging
             var message = channel.CreateBasicProperties();
             message.ContentType = "application/json";
             message.DeliveryMode = 2;
+            // Add a MessageType header, this part is crucial for our solution because it is our way of distinguishing messages
             message.Headers = new Dictionary<string, object> { ["MessageType"] = messageType };
             var body = JsonSerializer.SerializeToUtf8Bytes(value);
 
+            // Publish this without a routing key to the rabbitmq broker
             channel.BasicPublish("aukio", string.Empty, message, body);
             return Task.CompletedTask;
         }

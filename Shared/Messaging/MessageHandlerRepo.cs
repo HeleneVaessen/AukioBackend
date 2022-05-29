@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Shared.Messaging
 {
+    /// <summary>
+    /// Registry services of all message handlers in the current project.
+    /// </summary>
     internal class MessageHandlerRepo
     {
         private readonly IReadOnlyDictionary<string, Type> _messageHandlers;

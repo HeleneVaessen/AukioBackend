@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Consul;
@@ -8,31 +6,32 @@ using Microsoft.Extensions.Hosting;
 
 namespace Shared.Consul
 {
-    public class ServiceDiscoveryHosted :IHostedService
+    public class ServiceDiscoveryHostedService : IHostedService
     {
         private readonly IConsulClient _client;
         private readonly ServiceConfig _config;
         private string _registrationId;
 
-        public ServiceDiscoveryHosted(IConsulClient client, ServiceConfig config)
+        public ServiceDiscoveryHostedService(IConsulClient client, ServiceConfig config)
         {
-            Console.WriteLine("Hoi vanuit Consul");
-            Console.WriteLine(config);
             _client = client;
             _config = config;
+            if (config.ServiceName == null)
+            {
+                throw new ArgumentNullException(nameof(config));
+            }
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            Console.WriteLine($"{_config.ServiceName}-{_config.ServiceId}");
             _registrationId = $"{_config.ServiceName}-{_config.ServiceId}";
 
             var registration = new AgentServiceRegistration
             {
                 ID = _registrationId,
                 Name = _config.ServiceName,
-                Address = _config.ServiceAddress.Host,
-                Port = _config.ServiceAddress.Port
+                Port = _config.ServiceAddress.Port,
+                Address = _config.ServiceAddress.Host
             };
 
             await _client.Agent.ServiceDeregister(registration.ID, cancellationToken);
@@ -43,6 +42,5 @@ namespace Shared.Consul
         {
             await _client.Agent.ServiceDeregister(_registrationId, cancellationToken);
         }
-    
-}
+    }
 }

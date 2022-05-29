@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 
 namespace Shared.Consul
 {
-    public static class ServiceConfigExt
+    public static class ServiceConfigExtensions
     {
         public static ServiceConfig GetServiceConfig(this IConfiguration configuration)
         {
@@ -23,8 +20,12 @@ namespace Shared.Consul
                 ServiceId = configuration.GetValue<string>("ServiceConfig:serviceId")
             };
 
+            if (serviceConfig.ServiceName == null)
+            {
+                throw new ArgumentNullException(nameof(configuration));
+            }
+
             return serviceConfig;
         }
     }
 }
-

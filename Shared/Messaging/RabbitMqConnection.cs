@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
+using System;
 
 namespace Shared.Messaging
 {
+    /// <summary>
+    /// Singleton service keeping track of our connection with RabbitMQ.
+    /// </summary>
     internal class RabbitMqConnection : IDisposable
     {
         private IConnection _connection;
@@ -17,12 +17,12 @@ namespace Shared.Messaging
 
         private IConnection GetConnection()
         {
-            if (_connection == null)
+            if(_connection == null)
             {
                 var factory = new ConnectionFactory
                 {
                     Uri = new Uri("amqp://guest:guest@rabbit"),
-                    AutomaticRecoveryEnabled = true 
+                    AutomaticRecoveryEnabled = true // When the connection is lost, this will automatically reconnect us when it can get back up
                 };
                 _connection = factory.CreateConnection();
             }

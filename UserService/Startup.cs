@@ -103,12 +103,7 @@ namespace UserService
         }
         private void ConfigureConsul(IServiceCollection services)
         {
-            var serviceConfig = Configuration.GetServiceConfig();
-
-            if (Configuration.GetServiceConfig().ServiceName == null)
-            {
-                throw new ArgumentNullException(nameof(serviceConfig));
-            }
+            var serviceConfig = Configuration.GetServiceConfig()
 
             services.RegisterConsulServices(serviceConfig);
         }

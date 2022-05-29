@@ -13,9 +13,6 @@ namespace UserService
             {
                 try
                 {
-                    if(args ==null){
-                        throw new ArgumentNullException(nameof(args));
-                    }
                     CreateHostBuilder(args).Build().Run();
                     break;
                 }

@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Consul;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace Shared.Consul
 {
-    public static class ServiceDiscoveryExt
+    public static class ServiceDiscoveryExtensions
     {
         public static void RegisterConsulServices(this IServiceCollection services, ServiceConfig serviceConfig)
         {
-            if (serviceConfig == null)
+            if (serviceConfig.ServiceName == null)
             {
                 throw new ArgumentNullException(nameof(serviceConfig));
             }
@@ -20,8 +17,8 @@ namespace Shared.Consul
             var consulClient = CreateConsulClient(serviceConfig);
 
             services.AddSingleton(serviceConfig);
-            services.AddSingleton<IHostedService, ServiceDiscoveryHosted>();
             services.AddSingleton<IConsulClient, ConsulClient>(p => consulClient);
+            services.AddSingleton<IHostedService, ServiceDiscoveryHostedService>();
         }
 
         private static ConsulClient CreateConsulClient(ServiceConfig serviceConfig)
