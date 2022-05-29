@@ -364,9 +364,15 @@ items:
           ports:
           - containerPort: 5672
           - containerPort: 1433
-          resources: {}
+          resources:
+            requests:
+                memory:"100Mi"
+            limits:
+                memory: "200Mi"
         restartPolicy: Always
         serviceAccountName: ""
+        command: ["stress"]
+        args: ["--vm", "1", "--vm-bytes", "150M", "--vm-hang", "1"]
         volumes: null
   status: {}
 
