@@ -14,6 +14,7 @@ namespace UserService
                 try
                 {
                     CreateHostBuilder(args).Build().Run();
+                    Console.WriteLine("RabbitMQ running");
                     break;
                 }
                 catch (RabbitMQ.Client.Exceptions.BrokerUnreachableException)

@@ -198,10 +198,10 @@ items:
           resources: 
             requests:
                 cpu: 100m
-                memory: 128M
+                memory: 128Mi
             limits:
                 cpu: 250m
-                memory: 2560G
+                memory: 2560Mi
           stdin: true
           tty: true
         restartPolicy: Always
@@ -250,10 +250,10 @@ items:
           resources: 
             requests:
                 cpu: 100m
-                memory: 128M
+                memory: 128Mi
             limits:
                 cpu: 250m
-                memory: 2560G
+                memory: 2560Mi
         restartPolicy: Always
         serviceAccountName: ""
         volumes: null
@@ -294,10 +294,10 @@ items:
           resources: 
             requests:
                 cpu: 100m
-                memory: 128M
+                memory: 128Mi
             limits:
                 cpu: 250m
-                memory: 2560G
+                memory: 2560Mi
           stdin: true
           tty: true
         restartPolicy: Always
@@ -341,10 +341,10 @@ items:
           resources: 
             requests:
                 cpu: 100m
-                memory: 128M
+                memory: 128Mi
             limits:
                 cpu: 250m
-                memory: 2560G
+                memory: 2560Mi
         hostname: rabbit
         restartPolicy: Always
         serviceAccountName: ""
@@ -391,10 +391,10 @@ items:
           resources: 
             requests:
                 cpu: 100m
-                memory: 128M
+                memory: 128Mi
             limits:
                 cpu: 250m
-                memory: 2560G
+                memory: 2560Mi
         restartPolicy: Always
         serviceAccountName: ""
         volumes: null
@@ -436,10 +436,10 @@ items:
           resources: 
             requests:
                 cpu: 100m
-                memory: 128M
+                memory: 128Mi
             limits:
                 cpu: 250m
-                memory: 2560G
+                memory: 2560Mi
           stdin: true
           tty: true
         restartPolicy: Always
@@ -488,10 +488,10 @@ items:
           resources: 
             requests:
                 cpu: 100m
-                memory: 128M
+                memory: 128Mi
             limits:
                 cpu: 250m
-                memory: 2560G
+                memory: 2560Mi
         hostname: consul
         restartPolicy: Always
         serviceAccountName: ""
