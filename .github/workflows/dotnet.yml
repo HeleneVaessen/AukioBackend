@@ -18,8 +18,11 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      run: dotnet restore Aukio/Aukio.sln
+      run: dotnet restore Aukio.sln
     - name: Build
-      run: dotnet build Aukio/Aukio.sln --no-restore
+      run: dotnet build Aukio.sln --no-restore
     - name: Test
-      run: dotnet test Aukio/Aukio.sln --no-build --verbosity normal
+      run: dotnet test Aukio.sln --no-build --verbosity normal
+    - name: OWASP ZAP Full Scan
+      uses: zaproxy/action-full-scan@v0.4.0
+
