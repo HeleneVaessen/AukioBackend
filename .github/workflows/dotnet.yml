@@ -57,9 +57,11 @@ jobs:
       shell: powershell
       run: |
         .\.sonar\scanner\dotnet-sonarscanner begin /k:"HeleneVaessen_AukioBackend" /o:"helenevaessen" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-        dotnet clean Aukio.sln
+        dotnet clean build Aukio.sln
         .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
     - name: OWASP ZAP Full Scan
       uses: zaproxy/action-full-scan@v0.4.0
+      with:
+       target: http://localhost:50002
       
 
