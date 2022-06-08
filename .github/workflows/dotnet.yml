@@ -17,12 +17,6 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 5.0.x
-    - name: Restore dependencies
-      run: dotnet restore Aukio.sln
-    - name: Build
-      run: dotnet build Aukio.sln --no-restore
-    - name: Test
-      run: dotnet test Aukio.sln --no-build --verbosity normal
     - name: Set up JDK 11
       uses: actions/setup-java@v1
       with:
@@ -56,8 +50,15 @@ jobs:
       shell: powershell
       run: |
         .\.sonar\scanner\dotnet-sonarscanner begin /k:"HeleneVaessen_AukioBackend" /o:"helenevaessen" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-        dotnet clean
+        dotnet clean Aukio.sln
         .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+    - name: Restore dependencies
+      run: dotnet restore Aukio.sln
+    - name: Build
+      run: dotnet build Aukio.sln --no-restore
+    - name: Test
+      run: dotnet test Aukio.sln --no-build --verbosity normal
+
     - name: OWASP ZAP Full Scan
       uses: zaproxy/action-full-scan@v0.4.0
 
