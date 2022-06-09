@@ -66,14 +66,6 @@ steps:
     projects: '**/*.sln'
     arguments: '--collect "Code Coverage"'
 
-- task: SonarCloudAnalyze@1
-  displayName: 'Run SonarCloud analysis'
-
-- task: SonarCloudPublish@1
-  displayName: 'Publish results on build summary'
-  inputs:
-    pollingTimeoutSec: '300'
-
 - task: DotNetCoreCLI@2
   displayName: 'Restore solution'
   inputs:
@@ -86,6 +78,13 @@ steps:
   inputs:
     command: 'build'
     projects: '**/*.sln'
+- task: SonarCloudAnalyze@1
+  displayName: 'Run SonarCloud analysis'
+
+- task: SonarCloudPublish@1
+  displayName: 'Publish results on build summary'
+  inputs:
+    pollingTimeoutSec: '300'
 
 - task: Kubernetes@1
   displayName: kubectl apply using configFile
