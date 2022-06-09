@@ -50,8 +50,8 @@ steps:
     SonarCloud: 'sonarcloud'
     organization: '408135'
     scannerMode: 'MSBuild'
-    projectKey: '408135_AukioBackend.git'
-    projectName: 'AukioBackend.git'
+    projectKey: '408135_AukioBackend'
+    projectName: 'AukioBackend'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build solution'
