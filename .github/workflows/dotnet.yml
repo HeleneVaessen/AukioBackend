@@ -9,7 +9,7 @@ on:
 jobs:
   build:
 
-    runs-on: windows-latest
+    runs-on: linux-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -24,6 +24,7 @@ jobs:
       run: dotnet build Aukio.sln --no-restore
     - name: Test
       run: dotnet test Aukio.sln --no-build --verbosity normal
+
     - name: OWASP ZAP Full Scan
       uses: zaproxy/action-full-scan@v0.4.0
       with:
