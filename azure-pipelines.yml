@@ -50,8 +50,8 @@ steps:
     SonarCloud: 'sonarcloud'
     organization: '408135'
     scannerMode: 'MSBuild'
-    projectKey: '408135_AukioBackend'
-    projectName: 'AukioBackend'
+    projectKey: '408135_AukioBackend.git'
+    projectName: 'AukioBackend.git'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build solution'
@@ -74,18 +74,18 @@ steps:
   inputs:
     pollingTimeoutSec: '300'
 
-# - task: DotNetCoreCLI@2
-#   displayName: 'Restore solution'
-#   inputs:
-#     command: 'restore'
-#     projects: '**/*.sln'
-#     feedsToUse: 'select'
+- task: DotNetCoreCLI@2
+  displayName: 'Restore solution'
+  inputs:
+    command: 'restore'
+    projects: '**/*.sln'
+    feedsToUse: 'select'
 
-# - task: DotNetCoreCLI@2
-#   displayName: 'Build solution'
-#   inputs:
-#     command: 'build'
-#     projects: '**/*.sln'
+- task: DotNetCoreCLI@2
+  displayName: 'Build solution'
+  inputs:
+    command: 'build'
+    projects: '**/*.sln'
 
 - task: Kubernetes@1
   displayName: kubectl apply using configFile
