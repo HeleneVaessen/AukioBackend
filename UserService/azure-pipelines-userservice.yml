@@ -54,7 +54,7 @@ stages:
         containerRegistry: 'Docker Hub'
         repository: 'leenpeen/userservice'
         command: 'buildAndPush'
-        Dockerfile: 'UserService/Dockerfile'
+        Dockerfile: '**/UserService/UserService/Dockerfile'
         tags: 'latest'
         addPipelineData: false
         
