@@ -33,29 +33,6 @@ items:
       kompose.version: 1.21.0 (992df58d8)
     creationTimestamp: null
     labels:
-      io.kompose.service: authdb
-    name: authdb
-  spec:
-    ports:
-    - name: "5672"
-      port: 5672
-      targetPort: 5672
-    - name: "1433"
-      port: 1433
-      targetPort: 1433
-    selector:
-      io.kompose.service: authdb
-  status:
-    loadBalancer: {}
-
-- apiVersion: v1
-  kind: Service
-  metadata:
-    annotations:
-      kompose.cmd: kompose convert -f docker-compose.yml -o aukiodepl.yml
-      kompose.version: 1.21.0 (992df58d8)
-    creationTimestamp: null
-    labels:
       io.kompose.service: authenticationservice
     name: authenticationservice
   spec:
@@ -102,8 +79,8 @@ items:
       kompose.version: 1.21.0 (992df58d8)
     creationTimestamp: null
     labels:
-      io.kompose.service: userdb
-    name: userdb
+      io.kompose.service: aukiodb
+    name: aukiodb
   spec:
     ports:
     - name: "5672"
@@ -113,7 +90,7 @@ items:
       port: 1433
       targetPort: 1433
     selector:
-      io.kompose.service: userdb
+      io.kompose.service: aukiodb
   status:
     loadBalancer: {}
 
@@ -217,55 +194,6 @@ items:
       kompose.version: 1.21.0 (992df58d8)
     creationTimestamp: null
     labels:
-      io.kompose.service: authdb
-    name: authdb
-  spec:
-    replicas: 1
-    selector:
-      matchLabels:
-        io.kompose.service: authdb
-    strategy: {}
-    template:
-      metadata:
-        annotations:
-          kompose.cmd: kompose convert -f docker-compose.yml -o aukiodepl.yml
-  
-          kompose.version: 1.21.0 (992df58d8)
-        creationTimestamp: null
-        labels:
-          io.kompose.service: authdb
-      spec:
-        containers:
-        - env:
-          - name: ACCEPT_EULA
-            value: "Y"
-          - name: SA_PASSWORD
-            value: Your_password123
-          image: mcr.microsoft.com/mssql/server
-          imagePullPolicy: IfNotPresent
-          name: authdb
-          ports:
-          - containerPort: 5672
-          - containerPort: 1433
-          resources: 
-            requests:
-                cpu: 100m
-                memory: 128Mi
-            limits:
-                cpu: 250m
-                memory: 3Gi
-        restartPolicy: Always
-        serviceAccountName: ""
-        volumes: null
-  status: {}
-- apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    annotations:
-      kompose.cmd: kompose convert -f docker-compose.yml -o aukiodepl.yml
-      kompose.version: 1.21.0 (992df58d8)
-    creationTimestamp: null
-    labels:
       io.kompose.service: authenticationservice
     name: authenticationservice
   spec:
@@ -333,7 +261,7 @@ items:
       spec:
         containers:
         - image: rabbitmq:3-management
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           name: rabbitmq
           ports:
           - containerPort: 15672
@@ -359,13 +287,13 @@ items:
       kompose.version: 1.21.0 (992df58d8)
     creationTimestamp: null
     labels:
-      io.kompose.service: userdb
-    name: userdb
+      io.kompose.service: aukiodb
+    name: aukiodb
   spec:
     replicas: 1
     selector:
       matchLabels:
-        io.kompose.service: userdb
+        io.kompose.service: aukiodb
     strategy: {}
     template:
       metadata:
@@ -374,7 +302,7 @@ items:
           kompose.version: 1.21.0 (992df58d8)
         creationTimestamp: null
         labels:
-          io.kompose.service: userdb
+          io.kompose.service: aukiodb
       spec:
         containers:
         - env:
@@ -383,15 +311,12 @@ items:
           - name: SA_PASSWORD
             value: Your_password123
           image: mcr.microsoft.com/mssql/server
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           name: userdb
           ports:
           - containerPort: 5672
           - containerPort: 1433
           resources: 
-            requests:
-                cpu: 100m
-                memory: 128Mi
             limits:
                 cpu: 250m
                 memory: 3Gi

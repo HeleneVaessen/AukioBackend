@@ -21,25 +21,15 @@ services:
     ports:
       - "8500:8500"
 
-  userdb:
+  aukiodb:
     image: "mcr.microsoft.com/mssql/server"
-    container_name: UserDB
+    container_name: AukioDB
     environment:
         SA_PASSWORD: "Your_password123"
         ACCEPT_EULA: "Y"
     ports:
-        - "5674:5672"
-        - "1443:1433"
-
-  authdb:
-    image: "mcr.microsoft.com/mssql/server"
-    container_name: AuthDB
-    environment:
-        SA_PASSWORD: "Your_password123"
-        ACCEPT_EULA: "Y"
-    ports:
-        - "5675:5672"
-        - "1453:1433"
+        - "5676:5672"
+        - "1463:1433"
 
   apigateway:
     image: leenpeen/apigateway

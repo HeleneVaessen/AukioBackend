@@ -44,7 +44,7 @@ namespace UserService
 
             services.AddMessagePublishing("User Service");
 
-            var connection = "Server=userdb;Database=aukio;User=sa;Password=Your_password123;";
+            var connection = "Server=aukiodb;Database=userdb;User=sa;Password=Your_password123;";
 
             services.AddDbContext<UserContext>(
                  options => options.UseSqlServer(connection));
