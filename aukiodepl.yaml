@@ -11,8 +11,8 @@ items:
       io.kompose.service: apigateway
     name: apigateway
   spec:
-    loadBalancerIP: 20.91.197.135
     type: LoadBalancer
+    loadBalancerIP: 20.91.197.135
     ports:
     - name: "http"
       port: 80
@@ -242,7 +242,7 @@ items:
           - name: SA_PASSWORD
             value: Your_password123
           image: mcr.microsoft.com/mssql/server
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           name: authdb
           ports:
           - containerPort: 5672
@@ -253,7 +253,7 @@ items:
                 memory: 128Mi
             limits:
                 cpu: 250m
-                memory: 2560Mi
+                memory: 3Gi
         restartPolicy: Always
         serviceAccountName: ""
         volumes: null
@@ -333,7 +333,7 @@ items:
       spec:
         containers:
         - image: rabbitmq:3-management
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           name: rabbitmq
           ports:
           - containerPort: 15672
@@ -383,7 +383,7 @@ items:
           - name: SA_PASSWORD
             value: Your_password123
           image: mcr.microsoft.com/mssql/server
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           name: userdb
           ports:
           - containerPort: 5672
@@ -394,7 +394,7 @@ items:
                 memory: 128Mi
             limits:
                 cpu: 250m
-                memory: 2560Mi
+                memory: 3Gi
         restartPolicy: Always
         serviceAccountName: ""
         volumes: null

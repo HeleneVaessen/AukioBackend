@@ -1,0 +1,73 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kompose.cmd: kompose convert -f docker-compose.yml -o aukiodepl.yml
+      kompose.version: 1.21.0 (992df58d8)
+    creationTimestamp: null
+    labels:
+      io.kompose.service: rabbit
+    name: rabbit
+  spec:
+    ports:
+    - name: "15672"
+      port: 15672
+      targetPort: 15672
+    - name: "5672"
+      port: 5672
+      targetPort: 5672
+    selector:
+      io.kompose.service: rabbit
+  status:
+    loadBalancer: {}
+
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      kompose.cmd: kompose convert -f docker-compose.yml -o aukiodepl.yml
+      kompose.version: 1.21.0 (992df58d8)
+    creationTimestamp: null
+    labels:
+      io.kompose.service: rabbit
+    name: rabbit
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        io.kompose.service: rabbit
+    strategy: {}
+    template:
+      metadata:
+        annotations:
+          kompose.cmd: kompose convert -f docker-compose.yml -o aukiodepl.yml
+  
+          kompose.version: 1.21.0 (992df58d8)
+        creationTimestamp: null
+        labels:
+          io.kompose.service: rabbit
+      spec:
+        containers:
+        - image: rabbitmq:3-management
+          imagePullPolicy: IfNotPresent
+          name: rabbitmq
+          ports:
+          - containerPort: 15672
+          - containerPort: 5672
+          resources: 
+            requests:
+                cpu: 100m
+                memory: 128Mi
+            limits:
+                cpu: 250m
+                memory: 2560Mi
+        hostname: rabbit
+        restartPolicy: Always
+        serviceAccountName: ""
+        volumes: null
+  status: {}
+
+kind: List
+metadata: {}
