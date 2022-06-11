@@ -9,7 +9,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -17,9 +17,20 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 5.0.x
+    
     - name: Restore dependencies
-      run: dotnet restore Aukio/Aukio.sln
+      run: dotnet restore Aukio.sln
     - name: Build
-      run: dotnet build Aukio/Aukio.sln --no-restore
+      run: dotnet build Aukio.sln --no-restore
     - name: Test
-      run: dotnet test Aukio/Aukio.sln --no-build --verbosity normal
+      run: dotnet test Aukio.sln --no-build --verbosity normal
+      
+  securitytest:
+    runs-on: ubuntu-latest
+    steps:
+    - name: OWASP ZAP Full Scan
+      uses: zaproxy/action-full-scan@v0.4.0
+      with:
+       target: http://localhost:50002
+      
+
