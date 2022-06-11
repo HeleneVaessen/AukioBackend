@@ -54,7 +54,7 @@ stages:
         containerRegistry: 'Docker Hub'
         repository: 'leenpeen/authenticationservice'
         command: 'buildAndPush'
-        Dockerfile: '**/AuthenticationService/AuthenticationService/Dockerfile'
+        Dockerfile: 'AuthenticationService/Dockerfile'
         tags: 'latest'
         addPipelineData: false
         
