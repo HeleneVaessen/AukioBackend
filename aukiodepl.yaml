@@ -173,12 +173,9 @@ items:
             - name: "ASPNETCORE_ENVIRONMENT"
               value: ""
           resources: 
-            requests:
-                cpu: 100m
-                memory: 128Mi
             limits:
                 cpu: 250m
-                memory: 2560Mi
+                memory: 256Mi
           stdin: true
           tty: true
         restartPolicy: Always
@@ -220,12 +217,9 @@ items:
           - containerPort: 80
           - containerPort: 443
           resources: 
-            requests:
-                cpu: 100m
-                memory: 128Mi
             limits:
                 cpu: 250m
-                memory: 2560Mi
+                memory: 256Mi
           stdin: true
           tty: true
         restartPolicy: Always
@@ -268,11 +262,9 @@ items:
           - containerPort: 5672
           resources: 
             requests:
-                cpu: 100m
-                memory: 128Mi
             limits:
                 cpu: 250m
-                memory: 2560Mi
+                memory: 256Mi
         hostname: rabbit
         restartPolicy: Always
         serviceAccountName: ""
@@ -359,12 +351,9 @@ items:
           - containerPort: 80
           - containerPort: 443
           resources: 
-            requests:
-                cpu: 100m
-                memory: 128Mi
             limits:
                 cpu: 250m
-                memory: 2560Mi
+                memory: 256Mi
           stdin: true
           tty: true
         restartPolicy: Always
@@ -411,12 +400,9 @@ items:
           ports:
           - containerPort: 8500
           resources: 
-            requests:
-                cpu: 100m
-                memory: 128Mi
             limits:
                 cpu: 250m
-                memory: 2560Mi
+                memory: 256Mi
         hostname: consul
         restartPolicy: Always
         serviceAccountName: ""
