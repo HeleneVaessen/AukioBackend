@@ -21,7 +21,7 @@ variables:
   imagePullSecret: 'aukiocontainerregistry16408b81-auth'
   azureSubscriptionEndpoint: 'Azure for Students(54af003a-7ad9-4003-a861-674ca3bfb8e1)'
   azureResourceGroup: 'aukio'
-  kubernetesCluster: 'aukio'
+  kubernetesCluster: 'aukiov2'
 
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
