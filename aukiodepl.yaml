@@ -175,10 +175,10 @@ items:
               value: ""
           resources: 
             requests:
-                cpu: 100m
+                cpu: 40m
                 memory: 128Mi
             limits:
-                cpu: 250m
+                cpu: 120m
                 memory: 256Mi
           stdin: true
           tty: true
@@ -320,7 +320,7 @@ items:
           resources: 
             limits:
                 cpu: 250m
-                memory: 3Gi
+                memory: 1.5Gi
         restartPolicy: Always
         serviceAccountName: ""
         volumes: null
@@ -414,10 +414,10 @@ items:
           resources: 
             requests:
                 cpu: 100m
-                memory: 128Mi
+                memory: 40Mi
             limits:
                 cpu: 250m
-                memory: 256Mi
+                memory: 120Mi
         hostname: consul
         restartPolicy: Always
         serviceAccountName: ""
