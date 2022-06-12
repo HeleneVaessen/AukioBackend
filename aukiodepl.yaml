@@ -12,7 +12,7 @@ items:
     name: apigateway
   spec:
     type: LoadBalancer
-    loadBalancerIP: 20.91.197.135
+    loadBalancerIP: 20.91.201.22
     ports:
     - name: "http"
       port: 80
