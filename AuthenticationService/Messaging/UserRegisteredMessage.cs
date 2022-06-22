@@ -10,15 +10,15 @@ namespace AuthenticationService.Messaging
 {
     public class UserRegisteredMessage : IMessageHandler<User>
     {
-        private IAuthService _userService;
+        private IAuthService _authService;
 
-        public UserRegisteredMessage(IAuthService userService)
+        public UserRegisteredMessage(IAuthService authService)
         {
-            _userService = userService;
+            _authService = authService;
         }
-        public Task HandleMessageAsync(string messageType, User message)
+        public Task HandleMessageAsync(string messageType, User user)
         {
-            _userService.AddUser(message.ID, message.Email, message.Password);
+            _authService.AddUser(user);
 
             return Task.CompletedTask;
         }

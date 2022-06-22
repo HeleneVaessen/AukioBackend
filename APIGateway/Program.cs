@@ -1,11 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System;
+
 
 namespace APIGateway
 {
@@ -13,19 +11,18 @@ namespace APIGateway
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            hostBuilder(args).Build().Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
+        public static IHostBuilder hostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
                     webBuilder.UseStartup<Startup>();
+                    var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
                     webBuilder.ConfigureAppConfiguration(config =>
-                    config.AddJsonFile($"ocelot{env}.json"));
-                    Console.WriteLine($"Using ocelot{env}.json file");
+                    config.AddJsonFile($"ocelot{environment}.json"));
                 })
-            .ConfigureLogging(logging=>logging.AddConsole());
+            .ConfigureLogging(logging => logging.AddConsole());
     }
 }

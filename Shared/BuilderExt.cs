@@ -2,13 +2,14 @@
 
 namespace Shared
 {
-    public static class ApplicationBuilderExtensions
+    public static class BuilderExt
     {
-        public static void UseSharedAppParts(this IApplicationBuilder app, string apiName)
+        public static void Swagger(this IApplicationBuilder app, string apiName)
         {
             app.UseSwagger();
 
-            app.UseSwaggerUI(c => {
+            app.UseSwaggerUI(c =>
+            {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", apiName);
                 c.RoutePrefix = string.Empty;
             });

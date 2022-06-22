@@ -1,20 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using UserService.Services;
-using UserService.DAL;
-using Microsoft.EntityFrameworkCore;
-using UserService.Models;
+using Microsoft.IdentityModel.Tokens;
 using Shared;
 using Shared.Consul;
+using System.Text;
+using UserService.DAL;
+using UserService.Models;
+using UserService.Services;
 
 namespace UserService
 {
@@ -30,33 +27,54 @@ namespace UserService
 
 
 
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection serviceCollection)
         {
-            services.AddControllers();
-
-            ConfigureConsul(services);
-
-            services.AddScoped<IUserDAL, UserDAL>();
-
-            services.AddScoped<IUserService, Services.UserService>();
-
-            services.AddSharedServices("User Service");
-
-            services.AddMessagePublishing("User Service");
-
+            var JWTKey = "JWTKeyForAukioCreatedIn2022";
             var connection = "Server=aukiodb;Database=userdb;User=sa;Password=Your_password123;";
 
-            services.AddDbContext<UserContext>(
+            serviceCollection.AddAuthentication(x =>
+            {
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.SaveToken = true;
+                x.RequireHttpsMetadata = false;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(JWTKey)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+
+                };
+            });
+
+
+            serviceCollection.AddControllers();
+
+            ConfigureConsul(serviceCollection);
+
+            serviceCollection.AddAuthorization();
+
+            serviceCollection.AddScoped<IUserDAL, UserDAL>();
+
+            serviceCollection.AddScoped<IUserService, Services.UserService>();
+
+            serviceCollection.AddSharedServices("User Service");
+
+            serviceCollection.AddMessagePublishing("User Service");
+            serviceCollection.AddDbContext<UserContext>(
                  options => options.UseSqlServer(connection));
 
 
-            
+
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserContext context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
-            UpdateDatabase(app);
+            MigrateDatabase(app);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -66,7 +84,12 @@ namespace UserService
                 app.UseExceptionHandler("/Home/Error");
             }
 
+
             app.UseRouting();
+
+            app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.UseSharedAppParts("User Service");
 
@@ -76,36 +99,22 @@ namespace UserService
             });
         }
 
- 
-        public static void UpdateDatabase(IApplicationBuilder app)
+
+        public static void MigrateDatabase(IApplicationBuilder app)
         {
-            using var serviceScope = app.ApplicationServices
+            using var scope = app.ApplicationServices
                        .GetRequiredService<IServiceScopeFactory>()
                        .CreateScope();
-            using var context = serviceScope.ServiceProvider.GetService<UserContext>();
-            context.Database.Migrate();
+            using var userContext = scope.ServiceProvider.GetService<UserContext>();
+            userContext.Database.Migrate();
 
-            if (context.Users.FirstOrDefault(x => x.Email == "Admin@Admin.com") == null)
-            {
-                context.Users.Add(new Models.User
-                {
-                    Name = "Admin",
-                    Email = "Admin@Admin.com",
-                    School = "Fontys Hogescholen"
-                });
 
-                context.SaveChanges();
-
-                using var serviceScope2 = app.ApplicationServices
-                       .GetRequiredService<IServiceScopeFactory>()
-                       .CreateScope();
-            }
         }
         private void ConfigureConsul(IServiceCollection services)
         {
-            var serviceConfig = Configuration.GetServiceConfig();
+            var config = Configuration.GetServiceConfig();
 
-            services.RegisterConsulServices(serviceConfig);
+            services.RegisterConsulServices(config);
         }
     }
 }

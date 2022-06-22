@@ -1,74 +1,78 @@
 ﻿using AuthenticationService.DAL;
 using AuthenticationService.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AuthenticationService.Services
 {
-    public class AuthService :IAuthService
+    public class AuthService : IAuthService
     {
-        private readonly IUserDAL _userDAL;
+        private readonly IAuthDAL _authDAL;
 
-        private readonly IHashingService _cryptographyService;
+        private readonly IHashingService _iHashingService;
 
         private readonly IJwtAuthenticationManager _jwtAuthenticationManager;
 
-        public AuthService(IUserDAL userDAL, IHashingService cryptographyService, IJwtAuthenticationManager jwtAuthenticationManager)
+        public AuthService(IAuthDAL authDAL, IHashingService hashingservice, IJwtAuthenticationManager jwtAuthenticationManager)
         {
-            _userDAL = userDAL;
-            _cryptographyService = cryptographyService;
+            _authDAL = authDAL;
+            _iHashingService = hashingservice;
             _jwtAuthenticationManager = jwtAuthenticationManager;
         }
 
-        public void AddUser(int id, string email, string password)
+        public void AddUser(User user)
         {
-            var salt = _cryptographyService.GenerateSalt();
+            var salt = _iHashingService.GenerateSalt();
 
-            var hashedPassword = _cryptographyService.HashPassword(password, salt);
+            var passwordHashed = _iHashingService.HashPassword(user.Password, salt);
 
-            var stringSalt = Convert.ToBase64String(salt);
+            var saltString = Convert.ToBase64String(salt);
 
-            _userDAL.AddUser(new User { ID = id, Email = email, Password = hashedPassword, Role = Roles.Guest, Salt = stringSalt });
+            _authDAL.AddUser(new User { ID = user.ID, Email = user.Email, Password = passwordHashed, Role = Roles.Guest, Salt = saltString });
         }
 
-        public string Authenticate(string email, string password)
+        public string Login(User user)
         {
-            var user = _userDAL.GetUserByEmail(email);
+            var temp = _authDAL.GetUserByEmail(user.Email);
 
-            if (user != null && user.Password == _cryptographyService.HashInput(password, user.Salt))
+            if (temp != null && temp.Password == _iHashingService.HashInput(user.Password, temp.Salt))
             {
-                var result = _userDAL.GetUserByEmail(email);
-                return _jwtAuthenticationManager.WriteToken(result.ID, result.Role);
+                return _jwtAuthenticationManager.TurnIntoJWTToken(temp.ID, temp.Role);
             }
 
             return null;
         }
 
-        public void ChangeUser(int id, string email)
+        public void ChangeUser(UserUpdated user)
         {
-            var user = _userDAL.GetUserById(id);
+            var salt = _iHashingService.GenerateSalt();
 
-            if (user != null)
+            var passwordHashed = _iHashingService.HashPassword(user.NewPassword, salt);
+
+            var saltString = Convert.ToBase64String(salt);
+
+            var temp = _authDAL.GetUserByUserId(user.ID);
+            
+            if (temp != null)
             {
-                user.Email = email;
-                _userDAL.Save();
+                temp.Email = user.Email;
+                temp.Password = passwordHashed;
+                temp.Salt = saltString;
+                _authDAL.UpdateUser();
             }
         }
 
-        public User GetUser(int id)
+        public User GetUser(User user)
         {
-            return _userDAL.GetUserById(id);
+            return _authDAL.GetUserByUserId(user.ID);
         }
 
-        public void DeleteUser(int id)
+        public void DeleteUser(User user)
         {
-            var user = _userDAL.GetUserById(id);
+            var temp = _authDAL.GetUserByUserId(user.ID);
 
-            if (user != null)
+            if (temp != null)
             {
-                _userDAL.DeleteUser(user);
+                _authDAL.DeleteUser(temp);
             }
         }
 

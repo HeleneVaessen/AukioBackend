@@ -23,7 +23,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "K8S", "K8S", "{14098F12-9FC
 		userdb.yaml = userdb.yaml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Test", "UserService.Test\UserService.Test.csproj", "{72CE6135-7AD8-4CB3-A65B-035301EE695A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService.Test", "UserService.Test\UserService.Test.csproj", "{72CE6135-7AD8-4CB3-A65B-035301EE695A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{233CA7DD-714F-48A9-B70B-F7538D959A0A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{72CE6135-7AD8-4CB3-A65B-035301EE695A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72CE6135-7AD8-4CB3-A65B-035301EE695A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72CE6135-7AD8-4CB3-A65B-035301EE695A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{233CA7DD-714F-48A9-B70B-F7538D959A0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{233CA7DD-714F-48A9-B70B-F7538D959A0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{233CA7DD-714F-48A9-B70B-F7538D959A0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{233CA7DD-714F-48A9-B70B-F7538D959A0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,18 +1,14 @@
 ﻿using AuthenticationService.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AuthenticationService.Services
 {
     public interface IAuthService
     {
-        void AddUser(int id, string email, string password);
-        string Authenticate(string email, string password);
-        void ChangeUser(int id, string email);
-        User GetUser(int id);
-        void DeleteUser(int id);
+        void AddUser(User user);
+        string Login(User user);
+        void ChangeUser(UserUpdated user);
+        User GetUser(User user);
+        void DeleteUser(User user);
 
     }
 }

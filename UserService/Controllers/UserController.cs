@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using UserService.Services;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Shared.Messaging;
 using System.Threading.Tasks;
 using UserService.Models;
-using Shared.Messaging;
+using UserService.Services;
+using System;
 
 namespace UserService.Controllers
 {
@@ -25,37 +23,55 @@ namespace UserService.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> AddUser([FromBody] UserRegister user)
         {
-            if (_userService.CheckEmail(user.Email) || user.Password=="" || user.Password==null)
+            if (_userService.CheckEmail(user.Email) || user.Password != "" || user.Password != null)
             {
                 User addUser = new Models.User { Email = user.Email, Name = user.Name, School = user.School };
                 await _userService.AddUser(addUser);
-                User temp = _userService.GetUserByID(addUser);
-                await _messagePublisher.PublishMessageAsync("UserRegistered", new {ID = temp.ID, Email = user.Email, 
-                    Password = user.Password });
+                User temp = _userService.GetUserByID(addUser.ID);
+                await _messagePublisher.PublishMessageAsync("UserRegistered", new
+                {
+                    ID = temp.ID,
+                    Email = user.Email,
+                    Password = user.Password
+                });
                 return Ok();
             }
             return BadRequest("Email already taken");
         }
-       
-        [HttpGet("getUsers")]
-        public IActionResult GetUsers()
+
+        [HttpPost("getUserData")]
+        public IActionResult GetUserData([FromBody] int ID)
         {
-            List<User> users =_userService.GetAllUsers();
-            return Ok(users);
+            System.Console.WriteLine("getUserData");
+            User userData = _userService.GetUserByID(ID);
+            return Ok(userData);
         }
 
         [HttpPost("updateUser")]
-        public async Task<IActionResult> UpdateUser([FromBody]User user)
+        public async Task<IActionResult> UpdateUser([FromBody] UserUpdate user)
         {
-            if (await _userService.UpdateUser(user)) return Ok();
+            if (_userService.CheckEmail(user.Email) || user.Password != "" || user.Password != null)
+            {
+                User addUser = new Models.User {ID= user.ID, Email = user.Email, Name = user.Name, School = user.School };
+                await _userService.UpdateUser(addUser);
+                
+                await _messagePublisher.PublishMessageAsync("UserUpdated", new
+                {
+                    ID = user.ID,
+                    Email = user.Email,
+                    Password = user.Password,
+                    NewPassword =user.NewPassword
+                });
+                return Ok();
+            }
             else return BadRequest("User could not be updated");
         }
 
         [HttpDelete("deleteUser")]
-        public async Task<IActionResult> DeleteUser([FromBody]User user)
+        public async Task<IActionResult> DeleteUser([FromBody] User user)
         {
             if (await _userService.DeleteUser(user)) return Ok();
             return BadRequest("User could not be deleted");
         }
-}
+    }
 }

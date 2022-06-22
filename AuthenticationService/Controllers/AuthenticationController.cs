@@ -1,11 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using AuthenticationService.Models;
 using AuthenticationService.Services;
-using Microsoft.AspNetCore.Authorization;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AuthenticationService.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AuthenticationService.Controllers
 {
@@ -13,45 +8,47 @@ namespace AuthenticationService.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private readonly IAuthService _userService;
+        private readonly IAuthService _authService;
 
         private readonly IJwtAuthenticationManager _jwtAuthenticationManager;
 
-        public AuthenticationController(IAuthService userService, IJwtAuthenticationManager jwtAuthenticationManager)
+        public AuthenticationController(IAuthService authService, IJwtAuthenticationManager jwtAuthenticationManager)
         {
-            _userService = userService;
+            _authService = authService;
             _jwtAuthenticationManager = jwtAuthenticationManager;
         }
 
-        [HttpPost("authenticate")] 
-        public IActionResult Authenticate([FromBody] User user)
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] User user)
         {
-            var token = _userService.Authenticate(user.Email, user.Password);
+            var jwt = _authService.Login(user);
 
-            if (token == null) return Unauthorized();
+            if (jwt == null) return Unauthorized();
 
-            return Ok(token);
+            return Ok(jwt);
         }
 
-        [HttpPost("readToken")]
-        public IActionResult ReadToken()
-        {
-            var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", string.Empty);
-
-            var id = _jwtAuthenticationManager.ReadToken(token);
-
-            return Ok(id);
-        }
 
         [HttpGet("getRole")]
         public IActionResult GetRole()
         {
-            var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", string.Empty);
+            var jwt = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", string.Empty);
 
-            var role = _jwtAuthenticationManager.GetRole(token);
+            var role = _jwtAuthenticationManager.GetUserRole(jwt);
 
             return Ok(role);
         }
+
+        [HttpPost("translatetoID")]
+        public IActionResult translateToID()
+        {
+            var jwt = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", string.Empty);
+
+            var id = _jwtAuthenticationManager.TranslateToId(jwt);
+
+            return Ok(id);
+        }
+
 
     }
 }

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UserService.Models;
 
 namespace UserService.DAL
 {
-    public class UserDAL :IUserDAL
+    public class UserDAL : IUserDAL
     {
         private readonly UserContext _userContext;
 

@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AuthenticationService.DAL;
 using AuthenticationService.Messaging;
 using AuthenticationService.Models;
@@ -10,7 +5,6 @@ using AuthenticationService.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Shared;
 using Shared.Consul;
+using System.Text;
 
 namespace AuthenticationService
 {
@@ -31,68 +26,73 @@ namespace AuthenticationService
 
         public IConfiguration Configuration { get; }
 
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection serviceCollection)
         {
-            services.AddControllers();
+            var JWTKey = "JWTKeyForAukioCreatedIn2022";
+            var connection = "Server=aukiodb;Database=authdb;User=sa;Password=Your_password123;";
 
-            var key = "pk";
+            serviceCollection.AddControllers();
 
-            ConfigureConsul(services);
 
-            services.AddAuthentication(x =>
+            serviceCollection.AddAuthentication(x =>
             {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(x =>
             {
-                x.RequireHttpsMetadata = false;
                 x.SaveToken = true;
+                x.RequireHttpsMetadata = false;
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(JWTKey)),
                     ValidateIssuer = false,
                     ValidateAudience = false
 
                 };
-            }
-            );
+            });
 
-            services.AddAuthorization();
+            ConfigureConsul(serviceCollection);
 
-            services.AddCors();
-
-            var connection = "Server=aukiodb;Database=authdb;User=sa;Password=Your_password123;";
-
-            services.AddDbContext<UserContext>(
+            serviceCollection.AddDbContext<UserContext>(
                  options => options.UseSqlServer(connection));
 
-            services.AddSingleton<IJwtAuthenticationManager, JwtAuthenticationManager>();
 
-            services.AddSingleton<IHashingService, HashingService>();
+            serviceCollection.AddAuthorization();
 
-            services.AddScoped<IUserDAL, UserDAL>();
+            serviceCollection.AddCors();
 
-            services.AddScoped<IAuthService, AuthService>();
+            serviceCollection.AddSingleton<IJwtAuthenticationManager, JwtAuthenticationManager>();
 
-            services.AddSharedServices("Authentication Service");
+            serviceCollection.AddSingleton<IHashingService, HashingService>();
 
-            services.AddMessagePublishing("Authentication Service", builder => {
+            serviceCollection.AddScoped<IAuthDAL, AuthDAL>();
+
+            serviceCollection.AddScoped<IAuthService, AuthService>();
+
+            serviceCollection.AddSharedServices("Authentication Service");
+
+            serviceCollection.AddMessagePublishing("Authentication Service", builder =>
+            {
                 builder.WithHandler<UserRegisteredMessage>("UserRegistered");
+                builder.WithHandler<UserUpdatedMessage>("UserUpdated");
             });
-            
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
-            UpdateDatabase(app);
+            MigrateDatabase(app);
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
             app.UseRouting();
 
             app.UseAuthentication();
@@ -107,20 +107,20 @@ namespace AuthenticationService
             });
 
         }
-
-        private static void UpdateDatabase(IApplicationBuilder app)
+        private void ConfigureConsul(IServiceCollection serviceCollection)
         {
-            using var serviceScope = app.ApplicationServices
+            var config = Configuration.GetServiceConfig();
+
+            serviceCollection.RegisterConsulServices(config);
+        }
+
+        private static void MigrateDatabase(IApplicationBuilder app)
+        {
+            using var scope = app.ApplicationServices
                         .GetRequiredService<IServiceScopeFactory>()
                         .CreateScope();
-            using var context = serviceScope.ServiceProvider.GetService<UserContext>();
-            context.Database.Migrate();
-        }
-        private void ConfigureConsul(IServiceCollection services)
-        {
-            var serviceConfig = Configuration.GetServiceConfig();
-
-            services.RegisterConsulServices(serviceConfig);
+            using var userContext = scope.ServiceProvider.GetService<UserContext>();
+            userContext.Database.Migrate();
         }
     }
 }

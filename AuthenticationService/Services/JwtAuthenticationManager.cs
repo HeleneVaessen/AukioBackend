@@ -1,42 +1,40 @@
 ﻿using AuthenticationService.Models;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace AuthenticationService.Services
 {
     public class JwtAuthenticationManager : IJwtAuthenticationManager
     {
-        private readonly string key;
+        private readonly string JWTKey;
 
         public JwtAuthenticationManager()
         {
-            this.key = "Thisismytestprivatekey";
+            this.JWTKey = "JWTKeyForAukioCreatedIn2022";
         }
 
-        public string WriteToken(int ID, Roles role)
+        public string TurnIntoJWTToken(int ID, Roles role)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var tokenKey = Encoding.ASCII.GetBytes(key);
-            var tokenDescriptor = new SecurityTokenDescriptor()
+            var key = Encoding.ASCII.GetBytes(JWTKey);
+            var descriptor = new SecurityTokenDescriptor()
             {
                 Subject = new ClaimsIdentity(new Claim[] {
                     new Claim(ClaimTypes.Name, ID.ToString()),
                     new Claim(ClaimTypes.Role, role.ToString())
                 }),
-                Expires = DateTime.UtcNow.AddHours(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
+                Expires = DateTime.UtcNow.AddHours(3),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var token = tokenHandler.CreateToken(descriptor);
             return tokenHandler.WriteToken(token);
         }
 
-        public int ReadToken(string token)
+        public int TranslateToId(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var securityToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
@@ -46,7 +44,7 @@ namespace AuthenticationService.Services
             return int.Parse(claim);
         }
 
-        public string GetRole(string token)
+        public string GetUserRole(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var securityToken = tokenHandler.ReadToken(token) as JwtSecurityToken;

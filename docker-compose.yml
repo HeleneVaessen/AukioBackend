@@ -37,8 +37,8 @@ services:
       context: .
       dockerfile: APIGateway/Dockerfile
     ports:
-        - "50002:80"
-        - "50003:443"
+        - "20001:80"
+        - "20002:443"
 
   userservice:
     image: leenpeen/userservice
@@ -46,8 +46,8 @@ services:
       context: .
       dockerfile: UserService/Dockerfile
     ports:
-        - "50020:80"
-        - "50021:443"
+        - "20020:80"
+        - "20021:443"
 
   authenticationservice:
     image: leenpeen/authenticationservice
@@ -55,6 +55,6 @@ services:
       context: .
       dockerfile: AuthenticationService/Dockerfile
     ports:
-        - "50022:80"
-        - "50023:443"
+        - "20010:80"
+        - "20011:443"
 

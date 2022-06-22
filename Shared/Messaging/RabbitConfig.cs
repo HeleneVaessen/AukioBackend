@@ -1,25 +1,22 @@
 ﻿using RabbitMQ.Client;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Shared.Messaging
 {
-    internal class RabbitMqConfig
+    internal class RabbitConfig
     {
-        private readonly RabbitMqConnection _connection;
+        private readonly RabbitConnection _rabbitConnection;
         private bool configured = false;
 
-        public RabbitMqConfig(RabbitMqConnection connection)
+        public RabbitConfig(RabbitConnection rabbitConnection)
         {
-            _connection = connection;
+            _rabbitConnection = rabbitConnection;
         }
 
-        public void ConfigureRabbit()
+        public void Configure()
         {
             if (!configured)
             {
-                var channel = _connection.CreateChannel();
+                var channel = _rabbitConnection.CreateRabbitChannel();
 
                 channel.ExchangeDeclare("aukio", "fanout");
 
@@ -27,6 +24,7 @@ namespace Shared.Messaging
                 channel.QueueDeclare("User Service", false, false);
 
                 channel.QueueBind("Authentication Service", "aukio", "UserRegistered");
+                channel.QueueBind("Authentication Service", "aukio", "UserUpdated");
 
                 configured = true;
             }

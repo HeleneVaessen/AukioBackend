@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using UserService.Models;
 using UserService.DAL;
+using UserService.Models;
 namespace UserService.Services
 {
-    public class UserService :IUserService
+    public class UserService : IUserService
     {
         private readonly IUserDAL _userDAL;
 
@@ -58,9 +56,9 @@ namespace UserService.Services
             return false;
         }
 
-        public User GetUserByID(User user)
+        public User GetUserByID(int userID)
         {
-            return _userDAL.GetUserByID(user.ID);
+            return _userDAL.GetUserByID(userID);
         }
     }
 }

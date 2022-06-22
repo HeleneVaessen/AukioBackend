@@ -3,13 +3,10 @@ using System;
 
 namespace Shared.Messaging
 {
-    /// <summary>
-    /// Singleton service keeping track of our connection with RabbitMQ.
-    /// </summary>
-    internal class RabbitMqConnection : IDisposable
+    internal class RabbitConnection : IDisposable
     {
         private IConnection _connection;
-        public IModel CreateChannel()
+        public IModel CreateRabbitChannel()
         {
             var connection = GetConnection();
             return connection.CreateModel();
@@ -17,12 +14,12 @@ namespace Shared.Messaging
 
         private IConnection GetConnection()
         {
-            if(_connection == null)
+            if (_connection == null)
             {
                 var factory = new ConnectionFactory
                 {
                     Uri = new Uri("amqp://guest:guest@rabbit"),
-                    AutomaticRecoveryEnabled = true // When the connection is lost, this will automatically reconnect us when it can get back up
+                    AutomaticRecoveryEnabled = true 
                 };
                 _connection = factory.CreateConnection();
             }
