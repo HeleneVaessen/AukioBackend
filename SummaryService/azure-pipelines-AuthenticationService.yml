@@ -1,0 +1,61 @@
+trigger:
+- master
+
+resources:
+- repo: self
+
+variables:
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  vmImageName: 'ubuntu-latest'
+
+stages:
+- stage: Build
+  displayName: Build stage
+
+  jobs:
+  - job: Build
+    displayName: Build
+
+    pool:
+      vmImage: $(vmImageName)
+
+    steps:
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Restore solution'
+      inputs:
+        command: 'restore'
+        projects: '**/SummaryService/SummaryService.csproj'
+        feedsToUse: 'select'
+
+    - task: DotNetCoreCLI@2
+      displayName: Build Summary
+      inputs:
+        command: 'build'
+        projects: '**/SummaryService/SummaryService.csproj'
+
+    - task: DockerInstaller@0
+      inputs:
+        dockerVersion: '17.09.0-ce'
+
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'Docker Hub'
+        command: 'login'
+        addPipelineData: false
+
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'Docker Hub'
+        repository: 'leenpeen/summaryservice'
+        command: 'buildAndPush'
+        Dockerfile: 'SummaryService/Dockerfile'
+        tags: 'latest'
+        addPipelineData: false
+        
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'Docker Hub'
+        command: 'logout'
+        addPipelineData: false
