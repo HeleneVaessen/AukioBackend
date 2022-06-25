@@ -9,5 +9,6 @@ namespace SummaryService.DAL
     public interface ISummaryRepository
     {
         Task Save(Summary summary);
+        List<Summary> GetSummaries();
     }
 }

@@ -10,6 +10,7 @@ using Shared;
 using Shared.Consul;
 using SummaryService.Config;
 using SummaryService.DAL;
+using SummaryService.Services;
 using System.Text;
 
 namespace SummaryService
@@ -29,7 +30,6 @@ namespace SummaryService
             var JWTKey = "JWTKeyForAukioCreatedIn2022";
 
             serviceCollection.AddControllers();
-
 
             serviceCollection.AddAuthentication(x =>
             {
@@ -65,6 +65,8 @@ namespace SummaryService
             serviceCollection.AddCors();
 
             serviceCollection.AddSharedServices("Summary Service");
+
+            serviceCollection.AddScoped<ISummaryService, Services.SummaryService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

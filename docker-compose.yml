@@ -66,9 +66,13 @@ services:
     ports:
         - "20030:80"
         - "20031:443"
+    environment:
+        MongoDB__Host: mongo
+    depends_on:
+        - mongo
 
   mongo:
-    image: mongo
+    image: mongo:latest
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
@@ -77,10 +81,11 @@ services:
     - 27017:27017
 
   mongo-express:
-    image: mongo-express
+    image: mongo-express:latest
     restart: always
     ports:
       - 8081:8081
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_SERVER: mongo

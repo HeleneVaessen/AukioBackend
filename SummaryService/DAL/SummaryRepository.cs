@@ -1,4 +1,5 @@
-﻿using SummaryService.Models;
+﻿using MongoDB.Driver;
+using SummaryService.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,11 @@ namespace SummaryService.DAL
         public async Task Save(Summary summary)
         {
             await _context.Summaries.InsertOneAsync(summary);
+        }
+
+        public List<Summary> GetSummaries()
+        {
+            return _context.Summaries.AsQueryable().ToList();
         }
     }
 }

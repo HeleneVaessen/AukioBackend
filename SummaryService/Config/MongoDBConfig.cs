@@ -18,8 +18,11 @@ namespace SummaryService.Config
             {
                 if (string.IsNullOrEmpty(User) || string.IsNullOrEmpty(Password))
                 {
+                    Console.WriteLine("No username or password");
                     return $@"mongodb://{Host}:{Port}";
                 }
+                string s = $@"mongodb://{User}:{Password}@{Host}:{Port}/{Database}?connect=replicaSet";
+                Console.WriteLine(s);
                 return $@"mongodb://{User}:{Password}@{Host}:{Port}";
             }
         }

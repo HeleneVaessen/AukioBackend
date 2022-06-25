@@ -21,5 +21,10 @@ namespace SummaryService.Services
             summary.SummaryID = Guid.NewGuid();
             await _summaryRepository.Save(summary);
         }
+
+        public List<Summary> GetSummaries()
+        {
+            return _summaryRepository.GetSummaries();
+        }
     }
 }

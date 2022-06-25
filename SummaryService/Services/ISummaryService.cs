@@ -9,5 +9,7 @@ namespace SummaryService.Services
     public interface ISummaryService
     {
         Task PostSummary(Summary summary);
+
+        List<Summary> GetSummaries();
     }
 }
