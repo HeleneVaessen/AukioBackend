@@ -22,8 +22,6 @@ jobs:
       run: dotnet restore Aukio.sln
     - name: Build
       run: dotnet build Aukio.sln --no-restore
-    - name: Test
-      run: dotnet test Aukio.sln --no-build --verbosity normal
       
   securitytest:
     runs-on: ubuntu-latest

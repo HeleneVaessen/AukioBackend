@@ -1,0 +1,65 @@
+# Docker
+# Build and push an image to Azure Container Registry
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- master
+
+resources:
+- repo: self
+
+variables:
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  vmImageName: 'ubuntu-latest'
+
+stages:
+- stage: Build
+  displayName: Build stage
+
+  jobs:
+  - job: Build
+    displayName: Build
+
+    pool:
+      vmImage: $(vmImageName)
+
+    steps:
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Restore solution'
+      inputs:
+        command: 'restore'
+        projects: '**/UserService/UserService.csproj'
+        feedsToUse: 'select'
+
+    - task: DotNetCoreCLI@2
+      displayName: Build UserService
+      inputs:
+        command: 'build'
+        projects: '**/UserService/UserService.csproj'
+
+    - task: DockerInstaller@0
+      inputs:
+        dockerVersion: '17.09.0-ce'
+
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'Docker Hub'
+        command: 'login'
+        addPipelineData: false
+
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'Docker Hub'
+        repository: 'leenpeen/userservice'
+        command: 'buildAndPush'
+        Dockerfile: 'UserService/Dockerfile'
+        tags: 'latest'
+        addPipelineData: false
+        
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'Docker Hub'
+        command: 'logout'
+        addPipelineData: false
