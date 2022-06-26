@@ -13,21 +13,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIGateway", "APIGateway\AP
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "K8S", "K8S", "{14098F12-9FCD-4BE7-9254-8FB11A86EC9A}"
 	ProjectSection(SolutionItems) = preProject
-		apigateway.yaml = apigateway.yaml
 		aukiodepl.yaml = aukiodepl.yaml
-		auth.yaml = auth.yaml
-		authdb.yaml = authdb.yaml
-		consul.yaml = consul.yaml
-		rabbitmq.yaml = rabbitmq.yaml
-		user.yaml = user.yaml
-		userdb.yaml = userdb.yaml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService.Test", "UserService.Test\UserService.Test.csproj", "{72CE6135-7AD8-4CB3-A65B-035301EE695A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{233CA7DD-714F-48A9-B70B-F7538D959A0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SummaryService", "SummaryService\SummaryService.csproj", "{7AA3EE77-69A4-494B-A0EA-A5C04BB3AF84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SummaryService", "SummaryService\SummaryService.csproj", "{7AA3EE77-69A4-494B-A0EA-A5C04BB3AF84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

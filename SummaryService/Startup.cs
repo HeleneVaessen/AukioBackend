@@ -29,7 +29,6 @@ namespace SummaryService
         {
             var JWTKey = "JWTKeyForAukioCreatedIn2022";
 
-            serviceCollection.AddControllers();
 
             serviceCollection.AddAuthentication(x =>
             {
@@ -48,6 +47,9 @@ namespace SummaryService
 
                 };
             });
+
+
+            serviceCollection.AddControllers();
 
             ConfigureConsul(serviceCollection);
 
