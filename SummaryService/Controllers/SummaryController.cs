@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RestSharp;
 using SummaryService.Models;
 using SummaryService.Services;
 using System;
@@ -25,8 +26,18 @@ namespace SummaryService.Controllers
         {
             if (summary.UserId != 0)
             {
-                await _summaryService.PostSummary(summary);
-                return Ok();
+                var address = $@"https://swearwordfunction.azurewebsites.net/api/swearwordchecker?name= {summary.Title} {summary.Content}";
+                var client = new RestClient(address);
+
+                var request = new RestRequest();
+
+                var response = await client.ExecuteGetAsync(request);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    await _summaryService.PostSummary(summary);
+                    return Ok();
+                }             
             }
 
             return BadRequest();
