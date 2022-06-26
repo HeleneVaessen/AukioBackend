@@ -97,3 +97,10 @@ steps:
     command: apply
     useConfigurationFile: true
     configuration: 'aukiodepl.yaml'
+
+- task: AzureLoadTest@1
+  inputs:
+    azureSubscriptionEndpoint:  $(azureSubscriptionEndpoint)
+    loadTestConfigFile: '$(Build.SourcesDirectory)/load_test.yaml'
+    resourceGroup: $(azureResourceGroup)
+    loadTestResource: 'LoadTestingAukio'
